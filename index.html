@@ -93,10 +93,9 @@
 
             console.log(results)
 
-            debugger;
-
+            // There might be an easier way to sort now
             var sortedResults = results.sort(function(a,b) {
-                return a[4] * aPY - b[4] * bPY;
+                return a[8] - b[8];
             })
 
             console.log(sortedResults)
