@@ -44,27 +44,101 @@
         <input type="text" id="bPY" value="1148"/>
     </form>
 
-    <input type="button" onClick="calculate()"/>
+    <button onClick="calculate()">Calculate</button>
+
+    </body>
 
     <script>
 
         function calculate() {
 
             var results = [
-            ["1","D","Laser","2:24:53","8693","1078","2:14:24","MS"],
-            ["1","D","Laser","2:27:16","8836","1078","2:16:37","KA"],
-            ["1","D","Laser","2:37:16","9436","1078","2:25:53","EH"],
-            ["1","D","Laser","2:17:23","8243","1078","2:07:27","JG"],
-            ["1","D","Laser","2:27:33","8853","1078","2:16:52","AW"],
-            ["1","D","Laser","2:19:24","8364","1078","2:09:19","HC"],
-            ["1","D","Laser","2:35:25","9325","1078","2:24:10","PH"],
-            ["1","D","Laser","2:32:18","9138","1078","2:21:17","HB"],
-            ["1","D","Laser","2:27:00","8820","1078","2:16:22","AM"],
-            ["1","D","Solo","2:39:34","9574","1148","2:19:00","PM"],
-            ["1","D","Solo","2:21:07","8467","1148","2:02:55","SB"],
-            ["1","D","Solo","2:21:58","8518","1148","2:03:40","JC"],
-            ["1","D","Solo","2:17:54","8274","1148","2:00:07","AMF"]
-        ]
+                ["1", "D", "Laser", "8693", "1078", "MS"],
+                ["1", "D", "Laser", "8836", "1078", "KA"],
+                ["1", "D", "Laser", "9436", "1078", "EH"],
+                ["1", "D", "Laser", "8243", "1078", "JG"],
+                ["1", "D", "Laser", "8853", "1078", "AW"],
+                ["1", "D", "Laser", "8364", "1078", "HC"],
+                ["1", "D", "Laser", "9325", "1078", "PH"],
+                ["1", "D", "Laser", "9138", "1078", "HB"],
+                ["1", "D", "Laser", "8820", "1078", "AM"],
+                ["1", "D", "Solo", "9574", "1148", "PM"],
+                ["1", "D", "Solo", "8467", "1148", "SB"],
+                ["1", "D", "Solo", "8518", "1148", "JC"],
+                ["1", "D", "Solo", "8274", "1148", "AMF"],
+                ["2", "L", "Enterprise", "4074", "1111", "JD"],
+                ["2", "L", "GP14", "3944", "1129", "FS"],
+                ["2", "L", "Laser", "3319", "1078", "JG"],
+                ["2", "L", "Laser", "3385", "1078", "EH"],
+                ["2", "L", "Laser", "3503", "1078", "RH"],
+                ["2", "L", "Laser", "3691", "1078", "SG"],
+                ["2", "L", "Laser", "4319", "1078", "PH"],
+                ["2", "L", "Solo", "3472", "1148", "AMF"],
+                ["2", "L", "Solo", "3684", "1148", "PM"],
+                ["2", "L", "Solo", "3810", "1148", "SB"],
+                ["2", "L", "Solo", "4072", "1148", "AW"],
+                ["4", "L", "Laser4.7", "4072", "1174", "EA"],
+                ["4", "L", "Laser4.7", "3442", "1174", "PH"],
+                ["4", "L", "LaserRadial", "3180", "1111", "JC"],
+                ["4", "L", "LaserRadial", "3311", "1111", "HC"],
+                ["4", "L", "LaserRadial", "3286", "1111", "DB"],
+                ["4", "L", "LaserRadial", "3684", "1111", "JG"],
+                ["4", "L", "Solo", "3255", "1148", "PM"],
+                ["4", "L", "Solo", "3364", "1148", "AMF"],
+                ["5", "D", "GP14", "4320", "1129", "PH"],
+                ["5", "D", "Laser", "7116", "1078", "RH"],
+                ["5", "D", "Laser", "7463", "1078", "EH"],
+                ["5", "D", "Laser", "4105", "1078", "JS"],
+                ["5", "D", "Solo", "7242", "1148", "JC"],
+                ["5", "D", "Solo", "7256", "1148", "AMF"],
+                ["5", "D", "Solo", "7450", "1148", "SB"],
+                ["5", "D", "Solo", "3795", "1148", "AW"],
+                ["5", "D", "Xenon", "3905", "1080", "BR"],
+                ["7", "D", "Laser", "8700", "1078", "RH"],
+                ["7", "D", "Laser", "8224", "1078", "PM"],
+                ["7", "D", "Laser", "8440", "1078", "JG"],
+                ["7", "D", "Laser", "8244", "1078", "EH"],
+                ["7", "D", "Solo", "8686", "1148", "SB"],
+                ["7", "D", "Solo", "8657", "1148", "SG"],
+                ["7", "D", "Solo", "8074", "1148", "AMF"],
+                ["8", "L", "Laser", "2982", "1078", "JG"],
+                ["8", "L", "Laser4.7", "4068", "1174", "HB"],
+                ["8", "L", "Solo", "3373", "1148", "SG"],
+                ["8", "L", "Solo", "3213", "1148", "JC"],
+                ["8", "L", "Solo", "3574", "1148", "AMF"],
+                ["9", "L", "Laser", "2874", "1078", "RH"],
+                ["9", "L", "Solo", "2936", "1148", "JC"],
+                ["10", "L", "Laser", "3919", "1078", "JL"],
+                ["10", "L", "Laser", "4790", "1078", "EA"],
+                ["10", "L", "Solo", "3881", "1148", "AMF"],
+                ["11", "L", "LaserRadial", "4260", "1111", "RH"],
+                ["11", "L", "LaserRadial", "4346", "1111", "JC"]
+            ]
+
+            var columns = {
+                "race": 0,
+                "boatClass": 2,
+                "elapsed": 4,
+                "corrected": 6
+            }
+
+            console.log("Structuring data (inefficiently)...")
+
+            var structuredResults = [
+                [],[],[],[],[],[],[],[],[],[],[]
+            ]
+
+            results.forEach(structureData)
+
+            function structureData(row) {
+                race = row[columns.race]
+                console.log("race is " + race)
+                structuredResults[race] = ["Hello world"]
+            }
+
+            console.log(structuredResults)
+
+            debugger;
 
             console.log("Reading form...")
             
@@ -85,20 +159,18 @@
             function adjustTimes(row) {
 
                 if(PYs[row[2]]) {
-                    console.log("Found PY for " + row[2])
-                    row.push(row[4] * 1000 / PYs[row[2]])
+                    // console.log("Found PY for " + row[columns.boatClass])
+                    row.push(row[columns.elapsed] * 1000 / PYs[row[columns.boatClass]])
                 }
                 
             }
 
-            console.log(results)
-
-            // There might be an easier way to sort now
-            var sortedResults = results.sort(function(a,b) {
-                return a[8] - b[8];
+            // Is there a more elegant expression to do this?
+            results.sort(function(a,b) {
+                return a[columns.corrected] - b[columns.corrected];
             })
 
-            console.log(sortedResults)
+            console.log(results)
         }
 
     </script>
