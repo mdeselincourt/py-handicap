@@ -1,0 +1,108 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Handicap Inspector</title>
+
+  <meta property="og:title" content="Handicap Inspector">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="A simple HTML5 Template for new projects.">
+  <meta property="og:image" content="image.png">
+
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+  	<style>
+		
+		body {
+			font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+		}
+		h1, h2  {color: blue;}	
+
+	</style>
+
+</head>
+
+<body>
+
+<h1>Handicap Inspector</h1>
+
+    <form>
+        <select id="aBoat">
+            <option value="Laser">Laser</option>
+        </select>
+        <input type="text" id="aPY" value="1078"/>
+        <select id="bBoat">
+            <option value="Solo">Solo</option>
+        </select>
+        <input type="text" id="bPY" value="1148"/>
+    </form>
+
+    <input type="button" onClick="calculate()"/>
+
+    <script>
+
+        function calculate() {
+
+            var results = [
+            ["1","D","Laser","2:24:53","8693","1078","2:14:24","MS"],
+            ["1","D","Laser","2:27:16","8836","1078","2:16:37","KA"],
+            ["1","D","Laser","2:37:16","9436","1078","2:25:53","EH"],
+            ["1","D","Laser","2:17:23","8243","1078","2:07:27","JG"],
+            ["1","D","Laser","2:27:33","8853","1078","2:16:52","AW"],
+            ["1","D","Laser","2:19:24","8364","1078","2:09:19","HC"],
+            ["1","D","Laser","2:35:25","9325","1078","2:24:10","PH"],
+            ["1","D","Laser","2:32:18","9138","1078","2:21:17","HB"],
+            ["1","D","Laser","2:27:00","8820","1078","2:16:22","AM"],
+            ["1","D","Solo","2:39:34","9574","1148","2:19:00","PM"],
+            ["1","D","Solo","2:21:07","8467","1148","2:02:55","SB"],
+            ["1","D","Solo","2:21:58","8518","1148","2:03:40","JC"],
+            ["1","D","Solo","2:17:54","8274","1148","2:00:07","AMF"]
+        ]
+
+            console.log("Reading form...")
+            
+            var PYs = {
+                "Laser": 1078,
+                "Solo": 1148
+            }
+
+            PYs[document.getElementById("aBoat").value] = parseInt(document.getElementById("aPY").value)
+            PYs[document.getElementById("bBoat").value] = parseInt(document.getElementById("bPY").value)
+
+            console.log(PYs)
+
+            console.log("Applying handicaps...")
+
+            results.forEach(adjustTimes)
+
+            function adjustTimes(row) {
+
+                if(PYs[row[2]]) {
+                    console.log("Found PY for " + row[2])
+                    row.push(row[4] * 1000 / PYs[row[2]])
+                }
+                
+            }
+
+            console.log(results)
+
+            debugger;
+
+            var sortedResults = results.sort(function(a,b) {
+                return a[4] * aPY - b[4] * bPY;
+            })
+
+            console.log(sortedResults)
+        }
+
+    </script>
+	
+</body>
+</html>
