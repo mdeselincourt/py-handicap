@@ -85,15 +85,11 @@
                 ["4", "L", "LaserRadial", "3684", "1111", "JG"],
                 ["4", "L", "Solo", "3255", "1148", "PM"],
                 ["4", "L", "Solo", "3364", "1148", "AMF"],
-                ["5", "D", "GP14", "4320", "1129", "PH"],
                 ["5", "D", "Laser", "7116", "1078", "RH"],
                 ["5", "D", "Laser", "7463", "1078", "EH"],
-                ["5", "D", "Laser", "4105", "1078", "JS"],
                 ["5", "D", "Solo", "7242", "1148", "JC"],
                 ["5", "D", "Solo", "7256", "1148", "AMF"],
                 ["5", "D", "Solo", "7450", "1148", "SB"],
-                ["5", "D", "Solo", "3795", "1148", "AW"],
-                ["5", "D", "Xenon", "3905", "1080", "BR"],
                 ["7", "D", "Laser", "8700", "1078", "RH"],
                 ["7", "D", "Laser", "8224", "1078", "PM"],
                 ["7", "D", "Laser", "8440", "1078", "JG"],
@@ -117,35 +113,48 @@
 
             var columns = {
                 "race": 0,
+                "raceType": 1,
                 "boatClass": 2,
-                "elapsed": 4,
+                "elapsed": 3,
+                "officialPy": 4,
+                "helm": 5,
                 "corrected": 6
             }
 
             console.log("Structuring data (inefficiently)...")
 
-            var structuredResults = [
-                [],[],[],[],[],[],[],[],[],[],[]
+            var races = [
+                [],[],[],[],[],[],[],[],[],[],[],[]
             ]
 
-            results.forEach(structureData)
+            results.forEach(seperateRaces)
 
-            function structureData(row) {
-                race = row[columns.race]
-                console.log("race is " + race)
-                structuredResults[race] = ["Hello world"]
+            function seperateRaces(row) {
+                race = parseInt(row[columns.race])
+
+                if(!races[race]) {
+                    races[race] = []
+                }
+
+                //console.log("Adding a result to race " + race)
+                races[race].push(row)
             }
 
-            console.log(structuredResults)
+            //console.log("Races are:")
+            //console.log(races)
 
-            debugger;
-
-            console.log("Reading form...")
-            
+            // set defaults
             var PYs = {
                 "Laser": 1078,
-                "Solo": 1148
+                "LaserRadial": 1111,
+                "Laser4.7": 1174,
+                "Solo": 1148,
+                "Enterprise": 1111,
+                "GP14": 1129,
+                "Xenon": 1080
             }
+
+            console.log("Reading form and editing PYs...")
 
             PYs[document.getElementById("aBoat").value] = parseInt(document.getElementById("aPY").value)
             PYs[document.getElementById("bBoat").value] = parseInt(document.getElementById("bPY").value)
@@ -154,23 +163,63 @@
 
             console.log("Applying handicaps...")
 
-            results.forEach(adjustTimes)
+            races.forEach(handicapRace)
 
-            function adjustTimes(row) {
+            function handicapRace(race) {
+                race.forEach(correctTime)
+            }
 
-                if(PYs[row[2]]) {
-                    // console.log("Found PY for " + row[columns.boatClass])
+            function correctTime(row) {
+
+                if(PYs[row[columns.boatClass]]) {
+                    //console.log("Correcting time for " + row[columns.helm] + " in race " + row[columns.race])
+                    //console.log("elapsed is " + row[columns.elapsed])
+                    //console.log("PY is " + PYs[row[columns.boatClass]])
                     row.push(row[columns.elapsed] * 1000 / PYs[row[columns.boatClass]])
                 }
                 
             }
 
-            // Is there a more elegant expression to do this?
-            results.sort(function(a,b) {
-                return a[columns.corrected] - b[columns.corrected];
-            })
+            console.log("Sorting by corrected times")
 
-            console.log(results)
+            // Is there a more elegant expression to do this?
+            races.forEach(sortRace)
+
+            function sortRace(race) {
+                //console.log("Sorting a race...")
+                race.sort(function(a,b) {
+                    return a[columns.corrected] - b[columns.corrected];
+                })
+            }
+
+            console.log(races)
+
+            console.log("Analysing new results...")
+
+            var wins = {}
+
+            races.forEach(countWins)
+
+            function countWins(race) {
+                
+                
+                if(race[0]) { // Skip empty races!
+                    
+                    // Credit the win                    
+                    firstPlace = race[0]
+                    boatClass = firstPlace[columns.boatClass]
+                    if(!wins[boatClass]) 
+                        { wins[boatClass] = 1 } 
+                    else 
+                        { wins[boatClass] = wins[boatClass] + 1}
+
+                    
+                    
+                }
+            }
+
+            console.log(wins)
+
         }
 
     </script>
