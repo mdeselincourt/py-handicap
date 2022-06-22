@@ -34,17 +34,40 @@
 <h1>Handicap Inspector</h1>
 
     <form>
-        <select id="aBoat">
-            <option value="Laser">Laser</option>
-        </select>
-        <input type="text" id="aPY" value="1078"/>
-        <select id="bBoat">
-            <option value="Solo">Solo</option>
-        </select>
-        <input type="text" id="bPY" value="1148"/>
+        Laser
+        <input type="text" id="Laser" value="1078"/>
+        <br/>
+        LaserRadial
+        <input type="text" id="LaserRadial" value="1111"/>
+        <br/>
+        Laser4.7
+        <input type="text" id="Laser4.7" value="1174"/>
+        <br/>
+        Solo
+        <input type="text" id="Solo" value="1148"/>
+        <br/>
+        Enterprise
+        <input type="text" id="Enterprise" value="1111"/>
+        <br/>
+        GP14
+        <input type="text" id="GP14" value="1129"/>
+        <br/>
+        Xenon
+        <input type="text" id="Xenon" value="1080"/>
+        <br/>
+        420NoSpin
+        <input type="text" id="420NoSpin" value="1120"/>
+        <br/>
+        Supernova
+        <input type="text" id="Supernova" value="1070"/>
+        <br/>
+        MerlinNoSpin
+        <input type="text" id="MerlinNoSpin" value="1079"/>
     </form>
 
     <button onClick="calculate()">Calculate</button>
+
+    <p id="summary">...</p>
 
     </body>
 
@@ -53,62 +76,139 @@
         function calculate() {
 
             var results = [
-                ["1", "D", "Laser", "8693", "1078", "MS"],
-                ["1", "D", "Laser", "8836", "1078", "KA"],
-                ["1", "D", "Laser", "9436", "1078", "EH"],
-                ["1", "D", "Laser", "8243", "1078", "JG"],
-                ["1", "D", "Laser", "8853", "1078", "AW"],
-                ["1", "D", "Laser", "8364", "1078", "HC"],
-                ["1", "D", "Laser", "9325", "1078", "PH"],
-                ["1", "D", "Laser", "9138", "1078", "HB"],
-                ["1", "D", "Laser", "8820", "1078", "AM"],
-                ["1", "D", "Solo", "9574", "1148", "PM"],
-                ["1", "D", "Solo", "8467", "1148", "SB"],
-                ["1", "D", "Solo", "8518", "1148", "JC"],
-                ["1", "D", "Solo", "8274", "1148", "AMF"],
-                ["2", "L", "Enterprise", "4074", "1111", "JD"],
-                ["2", "L", "GP14", "3944", "1129", "FS"],
-                ["2", "L", "Laser", "3319", "1078", "JG"],
-                ["2", "L", "Laser", "3385", "1078", "EH"],
-                ["2", "L", "Laser", "3503", "1078", "RH"],
-                ["2", "L", "Laser", "3691", "1078", "SG"],
-                ["2", "L", "Laser", "4319", "1078", "PH"],
-                ["2", "L", "Solo", "3472", "1148", "AMF"],
-                ["2", "L", "Solo", "3684", "1148", "PM"],
-                ["2", "L", "Solo", "3810", "1148", "SB"],
-                ["2", "L", "Solo", "4072", "1148", "AW"],
-                ["4", "L", "Laser4.7", "4072", "1174", "EA"],
-                ["4", "L", "Laser4.7", "3442", "1174", "PH"],
-                ["4", "L", "LaserRadial", "3180", "1111", "JC"],
-                ["4", "L", "LaserRadial", "3311", "1111", "HC"],
-                ["4", "L", "LaserRadial", "3286", "1111", "DB"],
-                ["4", "L", "LaserRadial", "3684", "1111", "JG"],
-                ["4", "L", "Solo", "3255", "1148", "PM"],
-                ["4", "L", "Solo", "3364", "1148", "AMF"],
-                ["5", "D", "Laser", "7116", "1078", "RH"],
-                ["5", "D", "Laser", "7463", "1078", "EH"],
-                ["5", "D", "Solo", "7242", "1148", "JC"],
-                ["5", "D", "Solo", "7256", "1148", "AMF"],
-                ["5", "D", "Solo", "7450", "1148", "SB"],
-                ["7", "D", "Laser", "8700", "1078", "RH"],
-                ["7", "D", "Laser", "8224", "1078", "PM"],
-                ["7", "D", "Laser", "8440", "1078", "JG"],
-                ["7", "D", "Laser", "8244", "1078", "EH"],
-                ["7", "D", "Solo", "8686", "1148", "SB"],
-                ["7", "D", "Solo", "8657", "1148", "SG"],
-                ["7", "D", "Solo", "8074", "1148", "AMF"],
-                ["8", "L", "Laser", "2982", "1078", "JG"],
-                ["8", "L", "Laser4.7", "4068", "1174", "HB"],
-                ["8", "L", "Solo", "3373", "1148", "SG"],
-                ["8", "L", "Solo", "3213", "1148", "JC"],
-                ["8", "L", "Solo", "3574", "1148", "AMF"],
-                ["9", "L", "Laser", "2874", "1078", "RH"],
-                ["9", "L", "Solo", "2936", "1148", "JC"],
-                ["10", "L", "Laser", "3919", "1078", "JL"],
-                ["10", "L", "Laser", "4790", "1078", "EA"],
-                ["10", "L", "Solo", "3881", "1148", "AMF"],
-                ["11", "L", "LaserRadial", "4260", "1111", "RH"],
-                ["11", "L", "LaserRadial", "4346", "1111", "JC"]
+                ["G22-1", "D", "Laser", "8693", "1078", "MS"],
+                ["G22-1", "D", "Laser", "8836", "1078", "KA"],
+                ["G22-1", "D", "Laser", "9436", "1078", "EH"],
+                ["G22-1", "D", "Laser", "8243", "1078", "JG"],
+                ["G22-1", "D", "Laser", "8853", "1078", "AW"],
+                ["G22-1", "D", "Laser", "8364", "1078", "HC"],
+                ["G22-1", "D", "Laser", "9325", "1078", "PH"],
+                ["G22-1", "D", "Laser", "9138", "1078", "HB"],
+                ["G22-1", "D", "Laser", "8820", "1078", "AM"],
+                ["G22-1", "D", "Solo", "9574", "1148", "PM"],
+                ["G22-1", "D", "Solo", "8467", "1148", "SB"],
+                ["G22-1", "D", "Solo", "8518", "1148", "JC"],
+                ["G22-1", "D", "Solo", "8274", "1148", "AMF"],
+                ["G22-2", "L", "Enterprise", "4074", "1111", "JD"],
+                ["G22-2", "L", "GP14", "3944", "1129", "FS"],
+                ["G22-2", "L", "Laser", "3319", "1078", "JG"],
+                ["G22-2", "L", "Laser", "3385", "1078", "EH"],
+                ["G22-2", "L", "Laser", "3503", "1078", "RH"],
+                ["G22-2", "L", "Laser", "3691", "1078", "SG"],
+                ["G22-2", "L", "Laser", "4319", "1078", "PH"],
+                ["G22-2", "L", "Solo", "3472", "1148", "AMF"],
+                ["G22-2", "L", "Solo", "3684", "1148", "PM"],
+                ["G22-2", "L", "Solo", "3810", "1148", "SB"],
+                ["G22-2", "L", "Solo", "4072", "1148", "AW"],
+                ["G22-4", "L", "Laser4.7", "4072", "1174", "EA"],
+                ["G22-4", "L", "Laser4.7", "3442", "1174", "PH"],
+                ["G22-4", "L", "LaserRadial", "3180", "1111", "JC"],
+                ["G22-4", "L", "LaserRadial", "3311", "1111", "HC"],
+                ["G22-4", "L", "LaserRadial", "3286", "1111", "DB"],
+                ["G22-4", "L", "LaserRadial", "3684", "1111", "JG"],
+                ["G22-4", "L", "Solo", "3255", "1148", "PM"],
+                ["G22-4", "L", "Solo", "3364", "1148", "AMF"],
+                ["G22-5", "D", "Laser", "7116", "1078", "RH"],
+                ["G22-5", "D", "Laser", "7463", "1078", "EH"],
+                ["G22-5", "D", "Solo", "7242", "1148", "JC"],
+                ["G22-5", "D", "Solo", "7256", "1148", "AMF"],
+                ["G22-5", "D", "Solo", "7450", "1148", "SB"],
+                ["G22-7", "D", "Laser", "8700", "1078", "RH"],
+                ["G22-7", "D", "Laser", "8224", "1078", "PM"],
+                ["G22-7", "D", "Laser", "8440", "1078", "JG"],
+                ["G22-7", "D", "Laser", "8244", "1078", "EH"],
+                ["G22-7", "D", "Solo", "8686", "1148", "SB"],
+                ["G22-7", "D", "Solo", "8657", "1148", "SG"],
+                ["G22-7", "D", "Solo", "8074", "1148", "AMF"],
+                ["G22-8", "L", "Laser", "2982", "1078", "JG"],
+                ["G22-8", "L", "Laser4.7", "4068", "1174", "HB"],
+                ["G22-8", "L", "Solo", "3373", "1148", "SG"],
+                ["G22-8", "L", "Solo", "3213", "1148", "JC"],
+                ["G22-8", "L", "Solo", "3574", "1148", "AMF"],
+                ["G22-9", "L", "Laser", "2874", "1078", "RH"],
+                ["G22-9", "L", "Solo", "2936", "1148", "JC"],
+                ["G22-10", "L", "Laser", "3919", "1078", "JL"],
+                ["G22-10", "L", "Laser", "4790", "1078", "EA"],
+                ["G22-10", "L", "Solo", "3881", "1148", "AMF"],
+                ["C21-1","L","Laser","4758","1078","HC"],
+                ["C21-1","L","Laser","4256","1078","RH"],
+                ["C21-1","L","Laser","4036","1078","JG"],
+                ["C21-1","L","Laser","4710","1078","AM"],
+                ["C21-1","L","Solo","4619","1148","AMF"],
+                ["C21-1.5","L","Laser","5841","1078","JC"],
+                ["C21-1.5","L","Laser","3708","1078","JG"],
+                ["C21-1.5","L","Laser","2598","1078","RH"],
+                ["C21-1.5","L","Solo","4128","1148","AMF"],
+                ["C21-2","L","Laser","2520","1078","JG"],
+                ["C21-2","L","Laser","2794","1078","JC"],
+                ["C21-2","L","Laser","2358","1078","RH"],
+                ["C21-2","L","Laser","2878","1078","EH"],
+                ["C21-2","L","Laser","3386","1078","MM"],
+                ["C21-2","L","LaserRadial","3598","1111","EA"],
+                ["C21-2","L","Solo","2821","1148","AMF"],
+                ["C21-3","L","Enterprise","4524","1111","KA"],
+                ["C21-3","L","Laser","3595","1078","RH"],
+                ["C21-3","L","Laser","5612","1078","GM"],
+                ["C21-3","L","Laser","5490","1078","MD"],
+                ["C21-3","L","Laser","4458","1078","AW"],
+                ["C21-3","L","Laser","3635","1078","JG"],
+                ["C21-3","L","Laser","4542","1078","HB"],
+                ["C21-3","L","Laser","3646","1078","AM"],
+                ["C21-4","L","420NoSpin","4470","1120","SS"],
+                ["C21-4","L","Laser","3815","1078","JC"],
+                ["C21-4","L","Laser","3813","1078","JG"],
+                ["C21-4","L","Laser","3842","1078","HC"],
+                ["C21-4","L","Laser","3641","1078","RH"],
+                ["C21-4","L","LaserRadial","4104","1111","EH"],
+                ["C21-4","L","Solo","4027","1148","PM"],
+                ["C21-4","L","Solo","3922","1148","SB"],
+                ["C21-4","L","Solo","3974","1148","AMF"],
+                ["C21-5","L","Laser","4600","1078","HC"],
+                ["C21-5","L","Laser","4624","1078","JG"],
+                ["C21-5","L","Laser","4638","1078","JC"],
+                ["C21-5","L","Laser","4676","1078","AP"],
+                ["C21-5","L","Laser","5148","1078","EH"],
+                ["C21-5","L","Laser","5236","1078","FS"],
+                ["C21-5","L","Solo","4680","1148","SB"],
+                ["C21-5","L","Solo","4724","1148","AMF"],
+                ["C21-6","D","Laser","4677","1078","AP"],
+                ["C21-6","D","Laser","4513","1078","JG"],
+                ["C21-6","D","Laser","4630","1078","HC"],
+                ["C21-6","D","Laser","4363","1078","RH"],
+                ["C21-6","D","LaserRadial","5767","1111","PH"],
+                ["C21-6","D","Supernova","5261","1070","TG"],
+                ["C21-6","D","Solo","4759","1148","PM"],
+                ["C21-7","L","Laser4.7","5442","1174","EH"],
+                ["C21-7","L","LaserRadial","3500","1111","RH"],
+                ["C21-7","L","LaserRadial","4837","1111","JB"],
+                ["C21-7","L","LaserRadial","4595","1111","HC"],
+                ["C21-7","L","LaserRadial","3507","1111","JG"],
+                ["C21-7","L","MerlinNoSpin","4488","1079","AM"],
+                ["C21-7","L","Solo","4563","1148","PM"],
+                ["C21-8","D","420NoSpin","6589","1120","SS"],
+                ["C21-8","D","Laser","5496","1078","MS"],
+                ["C21-8","D","Laser","5365","1078","JC"],
+                ["C21-8","D","Laser","5297","1078","HC"],
+                ["C21-8","D","Laser","5232","1078","RH"],
+                ["C21-8","D","Solo","5635","1148","SB"],
+                ["C21-8","D","Solo","5703","1148","PM"],
+                ["C21-9","L","GP14","3269","1129","BR"],
+                ["C21-9","L","Laser4.7","3340","1174","PH"],
+                ["C21-9","L","Laser4.7","3307","1174","EH"],
+                ["C21-9","L","LaserRadial","2919","1111","HC"],
+                ["C21-9","L","LaserRadial","2999","1111","SP"],
+                ["C21-9","L","LaserRadial","3045","1111","MS"],
+                ["C21-9","L","Solo","2910","1148","JC"],
+                ["C21-10","L","Laser","3678","1078","EH"],
+                ["C21-10","L","Laser","4106","1078","PH"],
+                ["C21-10","L","Laser","3670","1078","JM"],
+                ["C21-10","L","Laser","3950","1078","SG"],
+                ["C21-10","L","Laser","3671","1078","KA"],
+                ["C21-10","L","Laser","3634","1078","HC"],
+                ["C21-10","L","Laser","3555","1078","RH"],
+                ["C21-10","L","Solo","3675","1148","SB"],
+                ["C21-10","L","Solo","3775","1148","JC"],
+                ["C21-10","L","Solo","3661","1148","AMF"]
             ]
 
             var columns = {
@@ -121,27 +221,28 @@
                 "corrected": 6
             }
 
+            var wins = {}
+            var classEntries = {} 
+
             console.log("Structuring data (inefficiently)...")
 
-            var races = [
-                [],[],[],[],[],[],[],[],[],[],[],[]
-            ]
+            var races = {}
 
             results.forEach(seperateRaces)
 
             function seperateRaces(row) {
-                race = parseInt(row[columns.race])
+                race = row[columns.race]
 
                 if(!races[race]) {
                     races[race] = []
                 }
 
-                //console.log("Adding a result to race " + race)
+                console.log("Adding a result to race " + race)
                 races[race].push(row)
             }
 
-            //console.log("Races are:")
-            //console.log(races)
+            console.log("Races are:")
+            console.log(races)
 
             // set defaults
             var PYs = {
@@ -151,19 +252,40 @@
                 "Solo": 1148,
                 "Enterprise": 1111,
                 "GP14": 1129,
-                "Xenon": 1080
+                "Xenon": 1080,
+                "420NoSpin": 1120,
+                "Supernova": 1070,
+                "MerlinNoSpin": 1079
+            }
+
+            var originalPYs = {
+                "Laser": 1078,
+                "LaserRadial": 1111,
+                "Laser4.7": 1174,
+                "Solo": 1148,
+                "Enterprise": 1111,
+                "GP14": 1129,
+                "Xenon": 1080,
+                "420NoSpin": 1120,
+                "Supernova": 1070,
+                "MerlinNoSpin": 1079
             }
 
             console.log("Reading form and editing PYs...")
 
-            PYs[document.getElementById("aBoat").value] = parseInt(document.getElementById("aPY").value)
-            PYs[document.getElementById("bBoat").value] = parseInt(document.getElementById("bPY").value)
+            for (const [bc, py] of Object.entries(PYs)) {
+               PYs[bc] = parseInt(document.getElementById(bc).value) 
+            }
 
             console.log(PYs)
 
             console.log("Applying handicaps...")
 
-            races.forEach(handicapRace)
+            for (const [id, r] of Object.entries(races)) {
+                handicapRace(races[id])
+            }
+
+
 
             function handicapRace(race) {
                 race.forEach(correctTime)
@@ -175,15 +297,18 @@
                     //console.log("Correcting time for " + row[columns.helm] + " in race " + row[columns.race])
                     //console.log("elapsed is " + row[columns.elapsed])
                     //console.log("PY is " + PYs[row[columns.boatClass]])
-                    row.push(row[columns.elapsed] * 1000 / PYs[row[columns.boatClass]])
+                    var corrected = row[columns.elapsed] * 1000 / PYs[row[columns.boatClass]]
+                    corrected = Math.round(corrected) 
+                    row.push(corrected)
                 }
                 
             }
 
             console.log("Sorting by corrected times")
-
-            // Is there a more elegant expression to do this?
-            races.forEach(sortRace)
+            // Sort each race by corrected times
+            for (const [id, r] of Object.entries(races)) {
+               sortRace(races[id]) 
+            }
 
             function sortRace(race) {
                 //console.log("Sorting a race...")
@@ -195,13 +320,12 @@
             console.log(races)
 
             console.log("Analysing new results...")
+            // Analyse each race
+            for (const [id, r] of Object.entries(races)) {
+                analyseRace(races[id])
+            }
 
-            var wins = {}
-
-            races.forEach(countWins)
-
-            function countWins(race) {
-                
+            function analyseRace(race) {
                 
                 if(race[0]) { // Skip empty races!
                     
@@ -213,12 +337,67 @@
                     else 
                         { wins[boatClass] = wins[boatClass] + 1}
 
+                    // Credit the participation
                     
+                    classes = []    
                     
+                    race.forEach(addClass)
+
+                    function addClass(row) {
+                        c = row[columns.boatClass]
+                        if(classes.indexOf(c) === -1) { classes.push(c) }
+                    }
+
+                    if(classes.length < 2) { 
+                        console.error("Single class race in data")
+                        alert("Single class race in data") 
+                    }
+                    
+                    //console.log("Participants were")
+                    //console.log(classes)
+
+                    classes.forEach(creditEntrant)
+
+                    function creditEntrant(e) {
+                        if(!classEntries[e]) { classEntries[e] = 1} else { classEntries[e] += 1}
+                    }
+
                 }
+
             }
 
             console.log(wins)
+            console.log(classEntries)
+
+            console.log("Summarising results")
+
+            html = ""
+
+            for (const [bc, e] of Object.entries(classEntries)) {
+                if(!wins[bc]){wins[bc] = 0} // Overwrite undefined entries with 
+
+                var altered = " (unaltered)"
+                if (PYs[bc] != originalPYs[bc]) { altered = " (altered from "+ originalPYs[bc] +")"} else {  }
+
+                var message = (bc + " would have won " + wins[bc] + " of " + e + " multiclass races with handicap " + PYs[bc] + altered)
+                console.log(message)
+                html += "<p>" + message + "</p>"
+            }
+
+            html += "<h2>Full simulation</h2>"
+
+            html += "<p>" 
+                
+            // Write out the entire simulation
+            for (const [id, r] of Object.entries(races)) {
+                races[id].forEach(function(row) { 
+                        html += row + "<br/>"
+                })
+            }                
+
+            html += "</p>"
+
+            document.getElementById("summary").innerHTML = html            
 
         }
 
