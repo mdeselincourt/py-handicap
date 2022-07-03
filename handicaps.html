@@ -74,7 +74,13 @@
         <input type="text" id="Laser13" value="1135"/>
     </form>
 
+    <p>Because not every class competes in every race, the total win %s will add up to more than 100%.</p>
+
+    <p>Single-class races are not included in the simulation (as the results prove nothing about handicaps)</p>
+
     <button onClick="calculate()">Calculate</button>
+
+
 
     <p id="summary">...</p>
 
@@ -442,6 +448,8 @@
             }
 
             html += "<h2>Full simulation</h2>"
+
+            html += "<p>The three numbers shown are: actual seconds, handicap, and corrected seconds.</p>"
 
             html += "<p>" 
                 
