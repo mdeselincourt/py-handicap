@@ -55,6 +55,9 @@
         Xenon
         <input type="text" id="Xenon" value="1080"/>
         <br/>
+        XenonNoSpin
+        <input type="text" id="XenonNoSpin" value="1100"/>
+        <br/>
         420NoSpin
         <input type="text" id="420NoSpin" value="1120"/>
         <br/>
@@ -63,6 +66,12 @@
         <br/>
         MerlinNoSpin
         <input type="text" id="MerlinNoSpin" value="1079"/>
+        <br/>
+        Streaker
+        <input type="text" id="Streaker" value="1128"/>
+        <br/>
+        Laser13
+        <input type="text" id="Laser13" value="1135"/>
     </form>
 
     <button onClick="calculate()">Calculate</button>
@@ -208,7 +217,48 @@
                 ["C21-10","L","Laser","3555","1078","RH"],
                 ["C21-10","L","Solo","3675","1148","SB"],
                 ["C21-10","L","Solo","3775","1148","JC"],
-                ["C21-10","L","Solo","3661","1148","AMF"]
+                ["C21-10","L","Solo","3661","1148","AMF"],
+                ["C20-1", "L", "Laser", "3865", "1078", "AM"],
+                ["C20-1", "L", "Laser", "3840", "1078", "SG"],
+                ["C20-1", "L", "Laser", "3832", "1078", "MdS"],
+                ["C20-1", "L", "Laser", "3678", "1078", "JG"],
+                ["C20-1", "L", "Solo", "3818", "1148", "SB"],
+                ["C20-1", "L", "Solo", "3810", "1148", "AMF"],
+                ["C20-1", "L", "Streaker", "3816", "1128", "JC"],
+                ["C20-1.5", "D", "Laser", "2640", "1078", "MH"],
+                ["C20-1.5", "D", "Laser", "2227", "1078", "SP"],
+                ["C20-1.5", "D", "Laser", "2018", "1078", "AM"],
+                ["C20-1.5", "D", "Laser13", "2771", "1135", "SG"],
+                ["C20-1.5", "D", "Solo", "2180", "1148", "PM"],
+                ["C20-1.5", "D", "XenonNoSpin", "3907", "1100", "EA"],
+                ["C20-2", "L", "Laser", "3246", "1078", "RH"],
+                ["C20-2", "L", "Laser", "3388", "1078", "JG"],
+                ["C20-2", "L", "Laser", "3651", "1078", "SP"],
+                ["C20-2", "L", "Laser", "3940", "1078", "JC"],
+                ["C20-2", "L", "Laser", "3835", "1078", "AW"],
+                ["C20-2", "L", "Laser", "3701", "1078", "HC"],
+                ["C20-2", "L", "Solo", "3598", "1148", "AMF"],
+                ["C20-2", "L", "Solo", "3584", "1148", "SB"],
+                ["C20-2", "L", "Solo", "3733", "1148", "PM"],
+                ["C20-2.5", "D", "Laser", "5263", "1078", "RH"],
+                ["C20-2.5", "D", "Laser", "5302", "1078", "JG"],
+                ["C20-2.5", "D", "Laser", "5405", "1078", "HC"],
+                ["C20-2.5", "D", "Laser", "5890", "1078", "MdS"],
+                ["C20-2.5", "D", "Solo", "6538", "1148", "PM"],
+                ["C20-2.5", "D", "Solo", "6566", "1148", "SB"],
+                ["C20-2.5", "D", "Laser", "6215", "1078", "AM"],
+                //["C20-3", "L", "LaserRadial", "3600", "1111", "RH"],
+                //["C20-3", "L", "LaserRadial", "4500", "1111", "JG"],
+                ["C20-4", "L", "Laser", "5393", "1078", "MdS"],
+                ["C20-4", "L", "Laser", "4612", "1078", "RH"],
+                ["C20-4", "L", "Laser", "5509", "1078", "PM"],
+                ["C20-4", "L", "Laser", "5096", "1078", "AM"],
+                ["C20-4", "L", "LaserRadial", "5575", "1111", "JC"],
+                ["C20-4", "L", "LaserRadial", "5132", "1111", "SP"]//,
+                //["C20-5", "L", "Laser Radial", "3026", "1111", "HC"],
+                //["C20-5", "L", "Laser Radial", "3450", "1111", "JC"],
+                //["C20-5", "L", "Laser Radial", "3454", "1111", "PM"],
+                //["C20-5", "L", "Laser Radial", "3594", "1111", "RH"]
             ]
 
             var columns = {
@@ -253,9 +303,12 @@
                 "Enterprise": 1111,
                 "GP14": 1129,
                 "Xenon": 1080,
+                "XenonNoSpin": 1100,
                 "420NoSpin": 1120,
                 "Supernova": 1070,
-                "MerlinNoSpin": 1079
+                "MerlinNoSpin": 1079,
+                "Streaker": 1128,
+                "Laser13": 1135
             }
 
             var originalPYs = {
@@ -266,9 +319,12 @@
                 "Enterprise": 1111,
                 "GP14": 1129,
                 "Xenon": 1080,
+                "XenonNoSpin": 1100,
                 "420NoSpin": 1120,
                 "Supernova": 1070,
-                "MerlinNoSpin": 1079
+                "MerlinNoSpin": 1079,
+                "Streaker": 1128,
+                "Laser13": 1135
             }
 
             console.log("Reading form and editing PYs...")
@@ -379,7 +435,8 @@
                 var altered = " (unaltered)"
                 if (PYs[bc] != originalPYs[bc]) { altered = " (altered from "+ originalPYs[bc] +")"} else {  }
 
-                var message = (bc + " would have won " + wins[bc] + " of " + e + " multiclass races with handicap " + PYs[bc] + altered)
+                var percent = Math.round((wins[bc] / e) * 100)
+                var message = (bc + " would have won " + wins[bc] + " of " + e + " (" + percent + "%) multiclass races with handicap " + PYs[bc] + altered)
                 console.log(message)
                 html += "<p>" + message + "</p>"
             }
