@@ -72,7 +72,17 @@
         <br/>
         Laser13
         <input type="text" id="Laser13" value="1135"/>
+        <p>
+        Race type filter
+        <select name="raceTypeSelect" id="raceTypeSelect">
+            <option value="*">-</option>
+            <option value="L">Local only</option>
+            <option value="D">Downriver only</option>
+          </select>
+          </p>
     </form>
+
+    
 
     <p>Because not every class competes in every race, the total win %s will add up to more than 100%.</p>
 
@@ -374,7 +384,7 @@
             ]
 
             var columns = {
-                "race": 0,
+                "id": 0,
                 "raceType": 1,
                 "boatClass": 2,
                 "elapsed": 3,
@@ -393,14 +403,25 @@
             results.forEach(seperateRaces)
 
             function seperateRaces(row) {
-                race = row[columns.race]
-
-                if(!races[race]) {
-                    races[race] = []
+                raceId = row[columns.id]
+                raceType = row[columns.raceType]
+                raceTypeSelectValue = document.getElementById("raceTypeSelect").value
+                // If this race is not of the required type, skip it
+                if(raceTypeSelectValue != "*"){
+                    //console.log("Checking race filter " + raceType + ", " + raceTypeSelectValue)
+                    if (raceType != raceTypeSelectValue) {
+                        //console.log("Skipping irrelevant race")
+                        return 
+                    }
                 }
 
-                console.log("Adding a result to race " + race)
-                races[race].push(row)
+                // If this result is for a race that doesn't exist, create an empty race
+                if(!races[raceId]) {
+                    races[raceId] = []
+                }
+
+                //console.log("Adding a result to race " + raceId)
+                races[raceId].push(row)
             }
 
             console.log("Races are:")
@@ -453,8 +474,6 @@
                 handicapRace(races[id])
             }
 
-
-
             function handicapRace(race) {
                 race.forEach(correctTime)
             }
@@ -462,7 +481,7 @@
             function correctTime(row) {
 
                 if(PYs[row[columns.boatClass]]) {
-                    //console.log("Correcting time for " + row[columns.helm] + " in race " + row[columns.race])
+                    //console.log("Correcting time for " + row[columns.helm] + " in race " + row[columns.id])
                     //console.log("elapsed is " + row[columns.elapsed])
                     //console.log("PY is " + PYs[row[columns.boatClass]])
                     var corrected = row[columns.elapsed] * 1000 / PYs[row[columns.boatClass]]
@@ -549,7 +568,6 @@
 
                 var percent = Math.round((wins[bc] / e) * 100)
                 var message = (bc + " would have won " + wins[bc] + " of " + e + " (" + percent + "%) multiclass races with handicap " + PYs[bc] + altered)
-                console.log(message)
                 html += "<p>" + message + "</p>"
             }
 
