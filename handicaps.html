@@ -33,63 +33,61 @@
 
 <h1>Handicap Explorer</h1>
 
-<p>
-    <button onClick="writeClubPYstoForm()">Apply Club PYs</button>
-    <button onClick="writeRYAPYstoForm()">Apply RYA PYs</button>
-</p>
+<table>
+        <tr><td>Laser</td>
+        <td><input type="text" id="Laser" value="1078"/></td></tr>
+        
+        <tr><td>LaserRadial</td>
+        <td><input type="text" id="LaserRadial" value="1111"/></td></tr>
+        
+        <tr><td>Laser4.7</td>
+        <td><input type="text" id="Laser4.7" value="1174"/></td></tr>
+        
+        <tr><td>Solo</td>
+        <td><input type="text" id="Solo" value="1148"/></td></tr>
+        
+        <tr><td>Enterprise</td>
+        <td><input type="text" id="Enterprise" value="1111"/></td></tr>
+        
+        <tr><td>GP14</td>
+        <td><input type="text" id="GP14" value="1129"/></td></tr>
+        
+        <tr><td>GP14NoSpin</td>
+        <td><input type="text" id="GP14NoSpin" value="1149"/></td></tr>
+        
+        <tr><td>Xenon</td>
+        <td><input type="text" id="Xenon" value="1080"/></td></tr>
+        
+        <tr><td>XenonNoSpin</td>
+        <td><input type="text" id="XenonNoSpin" value="1100"/></td></tr>
+        
+        <tr><td>420NoSpin</td>
+        <td><input type="text" id="420NoSpin" value="1120"/></td></tr>
+        
+        <tr><td>Supernova</td>
+        <td><input type="text" id="Supernova" value="1070"/></td></tr>
+        
+        <tr><td>MerlinNoSpin</td>
+        <td><input type="text" id="MerlinNoSpin" value="1079"/></td></tr>
+        
+        <tr><td>Streaker</td>
+        <td><input type="text" id="Streaker" value="1128"/></td></tr>
+        
+        <tr><td>Laser13</td>
+        <td><input type="text" id="Laser13" value="1135"/></td></tr>
+    </table>
+    <p>
+        <button onClick="writeClubPYstoForm()">Apply Club PYs</button> <button onClick="writeRYAPYstoForm()">Apply RYA PYs</button>
+    </p>
 
-    <form>
-        Laser
-        <input type="text" id="Laser" value="1078"/>
-        <br/>
-        LaserRadial
-        <input type="text" id="LaserRadial" value="1111"/>
-        <br/>
-        Laser4.7
-        <input type="text" id="Laser4.7" value="1174"/>
-        <br/>
-        Solo
-        <input type="text" id="Solo" value="1148"/>
-        <br/>
-        Enterprise
-        <input type="text" id="Enterprise" value="1111"/>
-        <br/>
-        GP14
-        <input type="text" id="GP14" value="1129"/>
-        <br/>
-        GP14NoSpin
-        <input type="text" id="GP14NoSpin" value="1149"/>
-        <br/>
-        Xenon
-        <input type="text" id="Xenon" value="1080"/>
-        <br/>
-        XenonNoSpin
-        <input type="text" id="XenonNoSpin" value="1100"/>
-        <br/>
-        420NoSpin
-        <input type="text" id="420NoSpin" value="1120"/>
-        <br/>
-        Supernova
-        <input type="text" id="Supernova" value="1070"/>
-        <br/>
-        MerlinNoSpin
-        <input type="text" id="MerlinNoSpin" value="1079"/>
-        <br/>
-        Streaker
-        <input type="text" id="Streaker" value="1128"/>
-        <br/>
-        Laser13
-        <input type="text" id="Laser13" value="1135"/>
-        <p>
+    <p>
         Race type filter
         <select name="raceTypeSelect" id="raceTypeSelect">
-            <option value="*">-</option>
+            <option value="*">All races</option>
             <option value="L">Local only</option>
             <option value="D">Downriver only</option>
           </select>
-          </p>
-    </form>
-
+    </p>
     
 
     <p>Because not every class competes in every race, the total win %s will add up to more than 100%.</p>
@@ -170,12 +168,13 @@
 
         function writePYstoForm(pys) {
 
+            //var rememberSelector = document.getElementById("raceTypeSelect").value
             for (const [cl, ha] of Object.entries(pys)) {
                 //console.log("Writing " + cl + " " + ha + " to form")
                 var i = document.getElementById(cl)
                 i.value = ha
             }
-
+            //document.getElementById("raceTypeSelect").value = rememberSelector
         }
 
         function calculate() {
@@ -625,8 +624,6 @@
                 e = classEntries[bc]
 
                 // Prepare the win %
-                console.log("wins[bc] is " + wins[bc])
-                console.log("e is " + e)
                 var percent
                 if (wins[bc] == 0 && classEntries[bc] == 0) { // catch 0/0 which is NaN
                     percent = ""
