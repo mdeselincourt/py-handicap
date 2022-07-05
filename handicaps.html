@@ -5,9 +5,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Handicap Inspector</title>
+  <title>Handicap Explorer</title>
 
-  <meta property="og:title" content="Handicap Inspector">
+  <meta property="og:title" content="Handicap Explorer">
   <meta property="og:type" content="website">
   <meta property="og:description" content="A simple HTML5 Template for new projects.">
   <meta property="og:image" content="image.png">
@@ -31,7 +31,7 @@
 
 <body>
 
-<h1>Handicap Inspector</h1>
+<h1>Handicap Explorer</h1>
 
 <p>
     <button onClick="writeClubPYstoForm()">Apply Club PYs</button>
@@ -610,28 +610,58 @@
             html = "<table>"
             //html += "<th>Class</th> <th>Wins</th> <th>Entered</th> <th>Handicap</th>"
 
-            classesArray = Object.entries(RYAPYs)
-            classesArray.sort()
-
+            sortedPYs = Object.entries(RYAPYs).sort()
+            
             classEntriesArray = Object.entries(classEntries)
             classEntriesArray.sort()
 
-            
-            for (const [bc, e] of classEntriesArray) {
-                if(!wins[bc]){wins[bc] = 0} // Overwrite undefined entries with zero
-
+            for (const [bc, py] of sortedPYs) {
+                if(!wins[bc]){wins[bc] = 0} // Overwrite undefined wins with zero
+                if(!classEntries[bc]){classEntries[bc] = 0} // Overwrite undefined entries with zero
+                
+                // Prepare a statement on whether the PY was altered
                 var altered = " (club)"
                 if (PYs[bc] != clubPYs[bc]) { altered = " (altered from club "+ clubPYs[bc] +")"} else {  }
+                e = classEntries[bc]
 
-                // Table
-                var percent = Math.round((wins[bc] / e) * 100)
-                var message = ("<td>" + bc + "</td><td>would have won " + wins[bc] + "</td><td>of " + e + "</td><td> (" + percent + "%) multiclass races with handicap " + PYs[bc] + "</td><td>" + altered + "</td>")
+                // Prepare the win %
+                console.log("wins[bc] is " + wins[bc])
+                console.log("e is " + e)
+                var percent
+                if (wins[bc] == 0 && classEntries[bc] == 0) { // catch 0/0 which is NaN
+                    percent = ""
+                }
+                else
+                {
+                    percent = "(" + Math.round((wins[bc] / e) * 100) + "%)"
+                }
 
-                // Table
-                var message
+
+                // Assemble the output
+                if (percent == "")
+                {
+                    var message = "<td>" + bc + "</td>"
+                }
+                else
+                {
+                    var message = ("<td>" + bc + "</td><td>would have won " + wins[bc] + "</td><td>of " + e + "</td><td> " + percent + " multiclass races with handicap " + PYs[bc] + "</td><td>" + altered + "</td>")
+                }
 
                 html += "<tr>" + message + "</tr>"
             }
+            
+            // for (const [bc, e] of classEntriesArray) {
+            //     //if(!wins[bc]){wins[bc] = 0} // Overwrite undefined entries with zero
+
+            //     var altered = " (club)"
+            //     if (PYs[bc] != clubPYs[bc]) { altered = " (altered from club "+ clubPYs[bc] +")"} else {  }
+
+            //     // Table
+            //     var percent = Math.round((wins[bc] / e) * 100)
+            //     var message = ("<td>" + bc + "</td><td>would have won " + wins[bc] + "</td><td>of " + e + "</td><td> (" + percent + "%) multiclass races with handicap " + PYs[bc] + "</td><td>" + altered + "</td>")
+
+            //     html += "<tr>" + message + "</tr>"
+            // }
 
             html += "</table>"
 
