@@ -33,6 +33,11 @@
 
 <h1>Handicap Inspector</h1>
 
+<p>
+    <button onClick="writeClubPYstoForm()">Apply Club PYs</button>
+    <button onClick="writeRYAPYstoForm()">Apply RYA PYs</button>
+</p>
+
     <form>
         Laser
         <input type="text" id="Laser" value="1078"/>
@@ -51,6 +56,9 @@
         <br/>
         GP14
         <input type="text" id="GP14" value="1129"/>
+        <br/>
+        GP14NoSpin
+        <input type="text" id="GP14NoSpin" value="1149"/>
         <br/>
         Xenon
         <input type="text" id="Xenon" value="1080"/>
@@ -90,13 +98,85 @@
 
     <button onClick="calculate()">Calculate</button>
 
-
+    
 
     <p id="summary">...</p>
 
     </body>
 
     <script>
+
+        // set defaults
+        var PYs = {
+                "Laser": 1078,
+                "LaserRadial": 1111,
+                "Laser4.7": 1174,
+                "Solo": 1148,
+                "Enterprise": 1111,
+                "GP14": 1129,
+                "GP14NoSpin": 1149,
+                "Xenon": 1080,
+                "XenonNoSpin": 1100,
+                "420NoSpin": 1120,
+                "Supernova": 1070,
+                "MerlinNoSpin": 1079,
+                "Streaker": 1128,
+                "Laser13": 1135
+            }
+
+            const clubPYs = {
+                "Laser": 1078,
+                "LaserRadial": 1111,
+                "Laser4.7": 1174,
+                "Solo": 1148,
+                "Enterprise": 1111,
+                "GP14": 1129,
+                "GP14NoSpin": 1149,
+                "Xenon": 1080,
+                "XenonNoSpin": 1100,
+                "420NoSpin": 1120,
+                "Supernova": 1070,
+                "MerlinNoSpin": 1079,
+                "Streaker": 1128,
+                "Laser13": 1135
+            }
+
+            const RYAPYs = {
+                "Laser": 1100,
+                "LaserRadial": 1147,
+                "Laser4.7": 1174,
+                "Solo": 1142,
+                "Enterprise": 1111,
+                "GP14": 1129,
+                "GP14NoSpin": 1149,
+                "Xenon": 1080,
+                "XenonNoSpin": 1100,
+                "420NoSpin": 1120,
+                "Supernova": 1070,
+                "MerlinNoSpin": 1079,
+                "Streaker": 1128,
+                "Laser13": 1135
+            }
+
+        function writeClubPYstoForm() {
+            console.log("Setting club PYs")
+            writePYstoForm(clubPYs)
+        }
+
+        function writeRYAPYstoForm() {
+            console.log("Setting RYA PYs")
+            writePYstoForm(RYAPYs)
+        }
+
+        function writePYstoForm(pys) {
+
+            for (const [cl, ha] of Object.entries(pys)) {
+                //console.log("Writing " + cl + " " + ha + " to form")
+                var i = document.getElementById(cl)
+                i.value = ha
+            }
+
+        }
 
         function calculate() {
 
@@ -427,38 +507,7 @@
             console.log("Races are:")
             console.log(races)
 
-            // set defaults
-            var PYs = {
-                "Laser": 1078,
-                "LaserRadial": 1111,
-                "Laser4.7": 1174,
-                "Solo": 1148,
-                "Enterprise": 1111,
-                "GP14": 1129,
-                "Xenon": 1080,
-                "XenonNoSpin": 1100,
-                "420NoSpin": 1120,
-                "Supernova": 1070,
-                "MerlinNoSpin": 1079,
-                "Streaker": 1128,
-                "Laser13": 1135
-            }
-
-            var originalPYs = {
-                "Laser": 1078,
-                "LaserRadial": 1111,
-                "Laser4.7": 1174,
-                "Solo": 1148,
-                "Enterprise": 1111,
-                "GP14": 1129,
-                "Xenon": 1080,
-                "XenonNoSpin": 1100,
-                "420NoSpin": 1120,
-                "Supernova": 1070,
-                "MerlinNoSpin": 1079,
-                "Streaker": 1128,
-                "Laser13": 1135
-            }
+            
 
             console.log("Reading form and editing PYs...")
 
@@ -558,18 +607,33 @@
 
             console.log("Summarising results")
 
-            html = ""
+            html = "<table>"
+            //html += "<th>Class</th> <th>Wins</th> <th>Entered</th> <th>Handicap</th>"
 
-            for (const [bc, e] of Object.entries(classEntries)) {
-                if(!wins[bc]){wins[bc] = 0} // Overwrite undefined entries with 
+            classesArray = Object.entries(RYAPYs)
+            classesArray.sort()
 
-                var altered = " (unaltered)"
-                if (PYs[bc] != originalPYs[bc]) { altered = " (altered from "+ originalPYs[bc] +")"} else {  }
+            classEntriesArray = Object.entries(classEntries)
+            classEntriesArray.sort()
 
+            
+            for (const [bc, e] of classEntriesArray) {
+                if(!wins[bc]){wins[bc] = 0} // Overwrite undefined entries with zero
+
+                var altered = " (club)"
+                if (PYs[bc] != clubPYs[bc]) { altered = " (altered from club "+ clubPYs[bc] +")"} else {  }
+
+                // Table
                 var percent = Math.round((wins[bc] / e) * 100)
-                var message = (bc + " would have won " + wins[bc] + " of " + e + " (" + percent + "%) multiclass races with handicap " + PYs[bc] + altered)
-                html += "<p>" + message + "</p>"
+                var message = ("<td>" + bc + "</td><td>would have won " + wins[bc] + "</td><td>of " + e + "</td><td> (" + percent + "%) multiclass races with handicap " + PYs[bc] + "</td><td>" + altered + "</td>")
+
+                // Table
+                var message
+
+                html += "<tr>" + message + "</tr>"
             }
+
+            html += "</table>"
 
             html += "<h2>Full simulation</h2>"
 
