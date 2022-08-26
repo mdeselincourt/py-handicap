@@ -34,50 +34,54 @@
 <h1>Handicap Explorer</h1>
 
 <table>
-        <tr><td>Laser</td>
-        <td><input type="text" id="Laser" value="1078"/></td></tr>
-        
-        <tr><td>LaserRadial</td>
-        <td><input type="text" id="LaserRadial" value="1111"/></td></tr>
-        
-        <tr><td>Laser4.7</td>
-        <td><input type="text" id="Laser4.7" value="1174"/></td></tr>
-        
-        <tr><td>Solo</td>
-        <td><input type="text" id="Solo" value="1148"/></td></tr>
-        
-        <tr><td>Enterprise</td>
-        <td><input type="text" id="Enterprise" value="1111"/></td></tr>
-        
-        <tr><td>GP14</td>
-        <td><input type="text" id="GP14" value="1129"/></td></tr>
-        
-        <tr><td>GP14NoSpin</td>
-        <td><input type="text" id="GP14NoSpin" value="1149"/></td></tr>
-        
-        <tr><td>Xenon</td>
-        <td><input type="text" id="Xenon" value="1080"/></td></tr>
-        
-        <tr><td>XenonNoSpin</td>
-        <td><input type="text" id="XenonNoSpin" value="1100"/></td></tr>
-        
         <tr><td>420</td>
-            <td><input type="text" id="420" value="1100"/></td></tr>
+        <td><input type="text" id="420" value="1100"/></td></tr>
 
         <tr><td>420NoSpin</td>
         <td><input type="text" id="420NoSpin" value="1120"/></td></tr>
-        
-        <tr><td>Supernova</td>
-        <td><input type="text" id="Supernova" value="1070"/></td></tr>
+    
+        <tr><td>Enterprise</td>
+        <td><input type="text" id="Enterprise" value="1111"/></td></tr>
+
+        <tr><td>GP14</td>
+        <td><input type="text" id="GP14" value="1129"/></td></tr>
+           
+        <tr><td>GP14NoSpin</td>
+        <td><input type="text" id="GP14NoSpin" value="1149"/></td></tr>
+
+        <tr><td>Laser</td>
+        <td><input type="text" id="Laser" value="1078"/></td></tr>
+
+        <tr><td>Laser13</td>
+        <td><input type="text" id="Laser13" value="1135"/></td></tr>
+
+        <tr><td>Laser4.7</td>
+        <td><input type="text" id="Laser4.7" value="1174"/></td></tr>
+
+        <tr><td>LaserRadial</td>
+        <td><input type="text" id="LaserRadial" value="1111"/></td></tr>
         
         <tr><td>MerlinNoSpin</td>
         <td><input type="text" id="MerlinNoSpin" value="1079"/></td></tr>
         
+        <tr><td>Pico</td>
+        <td><input type="text" id="Pico" value="1340"/></td></tr>
+
+        <tr><td>Solo</td>
+        <td><input type="text" id="Solo" value="1148"/></td></tr>
+        
         <tr><td>Streaker</td>
         <td><input type="text" id="Streaker" value="1128"/></td></tr>
+
+        <tr><td>Supernova</td>
+        <td><input type="text" id="Supernova" value="1070"/></td></tr>
         
-        <tr><td>Laser13</td>
-        <td><input type="text" id="Laser13" value="1135"/></td></tr>
+        <tr><td>Xenon</td>
+        <td><input type="text" id="Xenon" value="1080"/></td></tr>
+            
+        <tr><td>XenonNoSpin</td>
+        <td><input type="text" id="XenonNoSpin" value="1100"/></td></tr>
+        
     </table>
     <p>
         <button onClick="writeClubPYstoForm()">Apply Club PYs</button> <button onClick="writeRYAPYstoForm()">Apply RYA PYs</button>
@@ -123,7 +127,8 @@
                 "Supernova": 1070,
                 "MerlinNoSpin": 1079,
                 "Streaker": 1128,
-                "Laser13": 1135
+                "Laser13": 1135,
+                "Pico": 1340
             }
 
             const clubPYs = {
@@ -141,25 +146,27 @@
                 "Supernova": 1070,
                 "MerlinNoSpin": 1079,
                 "Streaker": 1128,
-                "Laser13": 1135
+                "Laser13": 1135,
+                "Pico": 1340
             }
 
             const RYAPYs = {
                 "Laser": 1100,
                 "LaserRadial": 1147,
-                "Laser4.7": 1174,
+                "Laser4.7": 1208,
                 "Solo": 1142,
-                "Enterprise": 1111,
-                "GP14": 1129,
+                "Enterprise": 1122,
+                "GP14": 1130,
                 "GP14NoSpin": 1149,
-                "Xenon": 1080,
+                "Xenon": 1079,
                 "XenonNoSpin": 1100,
-                "420": 1110,
+                "420": 1105,
                 "420NoSpin": 1120,
-                "Supernova": 1070,
-                "MerlinNoSpin": 1079,
+                "Supernova": 1077,
+                "MerlinNoSpin": 980,
                 "Streaker": 1128,
-                "Laser13": 1135
+                "Laser13": 1135,
+                "Pico": 1330
             }
 
         function writeClubPYstoForm() {
@@ -230,7 +237,7 @@
                 ["B22-4","L","Solo","3632","1148","PM"],
                 ["B22-4","L","Solo","3635","1148","SB"],
                 ["B22-4","L","Laser","3546","1078","MS"],
-                ["B22-4","L","Laser 13","4507","1148","JD"],
+                ["B22-4","L","Laser13","4507","1148","JD"],
                 ["B22-5","L","LaserRadial","3556","1111","GB"],
                 ["B22-5","L","Laser4.7","3742","1174","JD"],
                 ["B22-5","L","Solo","3164","1148","SG"],
@@ -267,7 +274,7 @@
                 ["B22-9","L","Laser","4320","1078","HC"],
                 ["B22-9","L","Laser","4183","1078","JG"],
                 ["B22-9","L","Laser","3581","1078","RH"],
-                ["B22-9","L","laser","4245","1078","TG"],
+                ["B22-9","L","Laser","4245","1078","TG"],
                 ["B22-3","D","Laser","7298","1078","EH"],
                 ["B22-3","D","Solo","7239","1148","JC"],
                 ["B22-3","D","Laser","7820","1078","EA"],
@@ -606,15 +613,15 @@
             console.log("Races are:")
             console.log(races)
 
-            
-
             console.log("Reading form and editing PYs...")
 
+            // PYs will only contain PYs for classes that are in the PY object.
+            // Classes in races but not in the PY object might be forgotten
             for (const [bc, py] of Object.entries(PYs)) {
                PYs[bc] = parseInt(document.getElementById(bc).value) 
             }
 
-            console.log(PYs)
+            //console.log(PYs)
 
             console.log("Applying handicaps...")
 
@@ -629,15 +636,22 @@
             function correctTime(row) {
 
                 if(PYs[row[columns.boatClass]]) {
-                    //console.log("Correcting time for " + row[columns.helm] + " in race " + row[columns.id])
-                    //console.log("elapsed is " + row[columns.elapsed])
-                    //console.log("PY is " + PYs[row[columns.boatClass]])
+                    console.log("Correcting time for " + row[columns.helm] + "'s " + row[columns.boatClass] + " in race " + row[columns.id])
+                    console.log("elapsed is " + row[columns.elapsed])
+                    console.log("PY is " + PYs[row[columns.boatClass]])
+
+                    if (PYs[row[columns.boatClass]] == undefined) { console.log("UNDEFINED")}
                     var corrected = row[columns.elapsed] * 1000 / PYs[row[columns.boatClass]]
+                    console.log("corrected = " + corrected)
+
                     corrected = Math.round(corrected) 
                     row.push(corrected)
                 }
-                
-            }
+                else
+                {
+                    alert("CANNOT FIND PY FOR CLASS " + row[columns.boatClass])
+                }
+                            }
 
             console.log("Sorting by corrected times")
             // Sort each race by corrected times
