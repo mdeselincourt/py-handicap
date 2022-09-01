@@ -190,6 +190,16 @@
             //document.getElementById("raceTypeSelect").value = rememberSelector
         }
 
+        /*
+        Documentation
+
+        This script currently consumes a table of results from MULTICLASS RACES ONLY; for boatwise/sailorwise analysis
+        it will need to be modified to tolerate single-class races in the data.
+
+        Firstly it restructure a list of RESULTS into a list of RACES
+
+        */
+
         function calculate() {
 
             // G = Goodwin = Spring
@@ -579,7 +589,7 @@
                 "corrected": 6
             }
 
-            var wins = {}
+            var classWins = {}
             var classEntries = {} 
 
             console.log("Structuring data (inefficiently)...")
@@ -615,37 +625,36 @@
 
             console.log("Reading form and editing PYs...")
 
-            // PYs will only contain PYs for classes that are in the PY object.
-            // Classes in races but not in the PY object might be forgotten
+            // Read the PYs the user has entered into the "PYs" array
             for (const [bc, py] of Object.entries(PYs)) {
                PYs[bc] = parseInt(document.getElementById(bc).value) 
             }
 
             //console.log(PYs)
 
-            console.log("Applying handicaps...")
-
+            console.log("Applying handicaps to all the races...")
             for (const [id, r] of Object.entries(races)) {
-                handicapRace(races[id])
+                handicapRace(races[id]) // Handicap a race (which is an array of results)
             }
 
             function handicapRace(race) {
-                race.forEach(correctTime)
+                race.forEach(correctTime) // Append a corrected time to each result in the race
             }
 
+            // Calculates a new corrected time for a race result and append it as the last element in the array
             function correctTime(row) {
-
+                // If (there IS a PY available for this result)
                 if(PYs[row[columns.boatClass]]) {
-                    console.log("Correcting time for " + row[columns.helm] + "'s " + row[columns.boatClass] + " in race " + row[columns.id])
-                    console.log("elapsed is " + row[columns.elapsed])
-                    console.log("PY is " + PYs[row[columns.boatClass]])
+                    // Correct the time
+                    //console.log("Correcting time for " + row[columns.helm] + "'s " + row[columns.boatClass] + " in race " + row[columns.id])
+                    //console.log("elapsed is " + row[columns.elapsed])
+                    //console.log("PY is " + PYs[row[columns.boatClass]])
 
-                    if (PYs[row[columns.boatClass]] == undefined) { console.log("UNDEFINED")}
                     var corrected = row[columns.elapsed] * 1000 / PYs[row[columns.boatClass]]
-                    console.log("corrected = " + corrected)
+                    //console.log("corrected = " + corrected)
 
                     corrected = Math.round(corrected) 
-                    row.push(corrected)
+                    row.push(corrected) // Write the corrected time onto the end of the row
                 }
                 else
                 {
@@ -666,57 +675,136 @@
                 })
             }
 
-            console.log(races)
+            // console.log(races)
 
             console.log("Analysing new results...")
+            
             // Analyse each race
             for (const [id, r] of Object.entries(races)) {
-                analyseRace(races[id])
+                analyseSortedRace(races[id])
             }
 
-            function analyseRace(race) {
+            function analyseSortedRace(race) {
+
+                console.log("=====ANALYSING SORTED RACE=====")
                 
-                if(race[0]) { // Skip empty races!
+                if(race[0]) { // Only process non-empty races!
                     
-                    // Credit the win                    
+                    // CLASS ANALYSIS
+
+                    // Credit the win ( race[0] ) to the boat class for boat win %ages
                     firstPlace = race[0]
                     boatClass = firstPlace[columns.boatClass]
-                    if(!wins[boatClass]) 
-                        { wins[boatClass] = 1 } 
+                    if(!classWins[boatClass]) 
+                        { classWins[boatClass] = 1 } 
                     else 
-                        { wins[boatClass] = wins[boatClass] + 1}
+                        { classWins[boatClass] = classWins[boatClass] + 1}
 
-                    // Credit the participation
+                    // Credit the participation to the boat class for boat win %ages
+                    raceClasses = []
                     
-                    classes = []    
-                    
+                    // Populate a local list raceClasses of classes that competed at all
                     race.forEach(addClass)
 
                     function addClass(row) {
                         c = row[columns.boatClass]
-                        if(classes.indexOf(c) === -1) { classes.push(c) }
+                        if(raceClasses.indexOf(c) === -1) { raceClasses.push(c) }
                     }
 
-                    if(classes.length < 2) { 
+                    if(raceClasses.length < 2) { 
                         console.error("Single class race in data")
-                        alert("Single class race in data") 
+                        alert("Single class race in data")
                     }
+
+                    // Credit the classes with those entries
+                    raceClasses.forEach(creditClassEntry)
                     
-                    //console.log("Participants were")
-                    //console.log(classes)
-
-                    classes.forEach(creditEntrant)
-
-                    function creditEntrant(e) {
+                    // Calculate the new entries for the boat class
+                    function creditClassEntry(e) {
                         if(!classEntries[e]) { classEntries[e] = 1} else { classEntries[e] += 1}
                     }
 
+                    // SAILOR ANALYSIS ==============================================
+
+                    // Calculate average result per class
+                    
+                    classCorrectedResults = []
+
+                    race.forEach(compileClassResults)
+
+                    // Add this results to the classResults
+                    function compileClassResults(row){
+                        
+
+                        if(classCorrectedResults[row[columns.boatClass]])
+                        {
+                            classCorrectedResults[row[columns.boatClass]].push(row[columns.corrected])
+                        }
+                        else
+                        {
+                            classCorrectedResults[row[columns.boatClass]] = [row[columns.corrected]]
+                        }
+                    }
+
+                    //console.log(classCorrectedResults) // e.g. ["Laser":[1234,5678]...]
+
+                    // Calculate race class mean averages
+                    classAverageCorrectedResults = []
+
+                    // For each list of corrected results OF MORE THAN 1 RESULT, calculate an average
+                    for (const [bc, ctsArray] of Object.entries(classCorrectedResults)) {
+                        
+                        if(ctsArray.length < 2)
+                        {
+                            console.log("Not enough " + bc + " results to have a useful average")
+                        }
+                        else
+                        {
+                            console.log("For class " + bc + "...")
+                            sum = 0
+                            count = 0
+                            
+                            ctsArray.forEach(function(ct){
+                                //console.log("Accounting for result " + ct + "...")
+                                sum += ct
+                                count += 1
+                            })
+
+                            classAverageCorrectedResults[bc] = Math.round(sum/count,0)
+                        }
+                    }
+
+                    console.log("classAverageCorrectedResults is:")
+                    console.log(classAverageCorrectedResults)
+
+                    // Calculate race-level sailor skill factors
+
+                    race.forEach(calculateSailorSkill)
+
+                    function calculateSailorSkill(row) {
+
+                        if(classAverageCorrectedResults[row[columns.boatClass]]) {
+                            skill = row[columns.corrected] / classAverageCorrectedResults[row[columns.boatClass]]
+                            skill = Math.round(skill * 1000,0)
+                        
+                            console.log(row[columns.helm] + " deserves personal handicap " + skill + " when sailing " + row[columns.boatClass])
+                        }
+                        else
+                        {
+                            console.log("No result for class " + row[columns.boatClass] + ", probably due to not enough results.")
+                        }
+                    }
+
+                } // End of per-race analysis
+                else
+                {
+                    console.warn("Empty race found!")
                 }
 
             }
 
-            console.log(wins)
-            console.log(classEntries)
+            //console.log(classWins)
+            //console.log(classEntries)
 
             console.log("Summarising results")
 
@@ -729,7 +817,7 @@
             classEntriesArray.sort()
 
             for (const [bc, py] of sortedPYs) {
-                if(!wins[bc]){wins[bc] = 0} // Overwrite undefined wins with zero
+                if(!classWins[bc]){classWins[bc] = 0} // Overwrite undefined wins with zero
                 if(!classEntries[bc]){classEntries[bc] = 0} // Overwrite undefined entries with zero
                 
                 // Prepare a statement on whether the PY was altered
@@ -739,12 +827,12 @@
 
                 // Prepare the win %
                 var percent
-                if (wins[bc] == 0 && classEntries[bc] == 0) { // catch 0/0 which is NaN
+                if (classWins[bc] == 0 && classEntries[bc] == 0) { // catch 0/0 which is NaN
                     percent = ""
                 }
                 else
                 {
-                    percent = "(" + Math.round((wins[bc] / e) * 100) + "%)"
+                    percent = "(" + Math.round((classWins[bc] / e) * 100) + "%)"
                 }
 
 
@@ -755,24 +843,11 @@
                 }
                 else
                 {
-                    var message = ("<td>" + bc + "</td><td>would have won " + wins[bc] + "</td><td>of " + e + "</td><td> " + percent + " multiclass races with handicap " + PYs[bc] + "</td><td>" + altered + "</td>")
+                    var message = ("<td>" + bc + "</td><td>would have won " + classWins[bc] + "</td><td>of " + e + "</td><td> " + percent + " multiclass races with handicap " + PYs[bc] + "</td><td>" + altered + "</td>")
                 }
 
                 html += "<tr>" + message + "</tr>"
             }
-            
-            // for (const [bc, e] of classEntriesArray) {
-            //     //if(!wins[bc]){wins[bc] = 0} // Overwrite undefined entries with zero
-
-            //     var altered = " (club)"
-            //     if (PYs[bc] != clubPYs[bc]) { altered = " (altered from club "+ clubPYs[bc] +")"} else {  }
-
-            //     // Table
-            //     var percent = Math.round((wins[bc] / e) * 100)
-            //     var message = ("<td>" + bc + "</td><td>would have won " + wins[bc] + "</td><td>of " + e + "</td><td> (" + percent + "%) multiclass races with handicap " + PYs[bc] + "</td><td>" + altered + "</td>")
-
-            //     html += "<tr>" + message + "</tr>"
-            // }
 
             html += "</table>"
 
