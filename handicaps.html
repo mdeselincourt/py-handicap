@@ -842,8 +842,16 @@
                 sailorSkillAverages[sailor] = Math.round(sum/count,0)
             }
 			
-			console.log(sailorSkillAverages)
-            
+            sailorOrder = getSortedKeys(sailorSkillAverages)
+
+            function getSortedKeys(obj) {
+                var keys = Object.keys(obj);
+                return keys.sort(function(a,b){return obj[a]-obj[b]});
+            }
+
+            sailorOrder.forEach(function(sailor) { console.log(sailor + ": " + sailorSkillAverages[sailor]) })
+
+
             //console.log(classWins)
             //console.log(classEntries)
 
