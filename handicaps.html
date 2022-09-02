@@ -591,6 +591,7 @@
 
             var classWins = {}
             var classEntries = {} 
+            sailorSkillHandicaps = []
 
             console.log("Structuring data (inefficiently)...")
 
@@ -788,6 +789,17 @@
                             skill = Math.round(skill * 1000,0)
                         
                             console.log(row[columns.helm] + " deserves personal handicap " + skill + " when sailing " + row[columns.boatClass])
+
+                            if(sailorSkillHandicaps[row[columns.helm]]) {
+                                console.log("Appending " + row[columns.helm] + " with " + skill)
+                                sailorSkillHandicaps[row[columns.helm]].push(skill)
+                            }
+                            else
+                            {
+                                console.log("Initialising " + row[columns.helm] + " with " + skill)
+                                sailorSkillHandicaps[row[columns.helm]] = [skill]
+                            }
+
                         }
                         else
                         {
@@ -801,8 +813,31 @@
                     console.warn("Empty race found!")
                 }
 
-            }
+                //console.log(sailorSkillHandicaps)
 
+            }
+            
+            // RACE ANALYSIS COMPLETE
+
+            sailorSkillHandicaps.forEach(averageSkillHandicaps)
+
+            sailorSkillAverages = []
+
+            for (const [sailor, rArray] of Object.entries(sailorSkillHandicaps)) {
+                    
+                console.log("For sailor " + sailor + "...")
+                sum = 0
+                count = 0
+                
+                rArray.forEach(function(r){
+                    //console.log("Accounting for result " + ct + "...")
+                    sum += r
+                    count += 1
+                })
+
+                sailorSkillAverages[sailor] = Math.round(sum/count,0)
+            }
+            
             //console.log(classWins)
             //console.log(classEntries)
 
